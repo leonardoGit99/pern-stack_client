@@ -1,0 +1,14 @@
+.form-container {
+  height: 92vh;
+}
+
+.form {
+  width: 400px;
+  background-color: rgb(31, 38, 47);
+  padding: 27px;
+  box-shadow: 0 2px 10px 5px rgba(125, 122, 122, 0.9);
+}
+
+#description {
+  resize: none;
+}

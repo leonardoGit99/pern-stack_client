@@ -1,35 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import AppLayout from './layouts/AppLayout/AppLayout';
+import Tasks from './pages/Tasks';
+import AddTask from './pages/AddTask';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
+import EditTask from './pages/EditTask';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [alert, setAlert] = useState(false);
 
+  const showAlert = (status) => {
+    setAlert(status);
+  }
+
+  const [isRefresh, setIsRefresh] = useState(true);
+  const setRefresh = (status) => {
+    setIsRefresh(status);
+  }
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Routes>
+      <Route path='/' element={<AppLayout />}>
+        <Route index element={<Tasks alert={alert} showAlert={showAlert} isRefresh={isRefresh} setRefresh={setRefresh}/>} />
+        <Route path='task-form' element={<AddTask alert={alert} showAlert={showAlert} isRefresh={isRefresh} setRefresh={setRefresh}/>}/>
+        <Route path='edit-task/:idTask' element={<EditTask isRefresh={isRefresh} setRefresh={setRefresh}/>} />
+      </Route>
+    </Routes>
   )
 }
 
-export default App
+export default App;

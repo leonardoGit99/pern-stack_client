@@ -1,0 +1,8 @@
+.card {
+  background-color: rgb(31, 38, 47) !important;
+  box-shadow: 0 3px 17px  rgba(125, 122, 122, 0.9);
+}
+
+.card:last-child {
+  margin-bottom: 0 !important;
+}
