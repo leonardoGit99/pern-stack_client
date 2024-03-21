@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import TaskList from '../components/TaskList/TaskList'
-import { getAllTasks, getTask } from '../services/tasks';
+import { getAllTasks } from '../services/tasks';
 
 function Tasks({ alert, showAlert, isRefresh, setRefresh }) {
   const [tasks, setTasks] = useState([]);
@@ -14,15 +14,22 @@ function Tasks({ alert, showAlert, isRefresh, setRefresh }) {
   }, [isRefresh]);
 
 
-
   return (
     <>
-      <TaskList
-        alert={alert}
-        setAlert={showAlert}
-        tasks={tasks}
-        setRefresh={setRefresh}
-      />
+      {
+        isRefresh
+          ?
+          <div className='d-flex h-100 justify-content-center align-items-center'>
+            <div className="loader"></div>
+          </div>
+          :
+          <TaskList
+            alert={alert}
+            setAlert={showAlert}
+            tasks={tasks}
+            setRefresh={setRefresh}
+          />
+      }
     </>
   )
 }

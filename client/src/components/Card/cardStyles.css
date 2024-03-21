@@ -6,3 +6,7 @@
 .card:last-child {
   margin-bottom: 0 !important;
 }
+
+.p-card-body{
+  flex:  1 0 40%;
+}

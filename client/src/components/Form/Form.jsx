@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './formStyles.css';
 import { createTask, updateTask } from '../../services/tasks';
+import { Modal } from 'bootstrap'
 
 function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
   const navigate = useNavigate();
@@ -42,18 +43,28 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
           if (data.message == "llave duplicada viola restricción de unicidad «task_title_key»") {
             window.alert("Tarea Existente");
           } else {
-            showAlert(true);
-            setRefresh(true);
             navigate('/');
+            setRefresh(true);
+            showAlert(true);
             setTimeout(() => {
               showAlert(false);
             }, 2000);
           }
         });
       } else {
-        updateTask(editBody, task.id);
-        // setRefresh(true);
-        navigate('/');
+        updateTask(editBody, task.id).then((data) => {
+          if (data.message == "llave duplicada viola restricción de unicidad «task_title_key»") {
+            window.alert("Tarea Existente");
+          } else {
+            setRefresh(true);
+            navigate('/');
+            let successMsgMofification = new Modal(document.getElementById('successful-modification'));
+            successMsgMofification.show();
+            setTimeout(()=>{
+              successMsgMofification.hide();
+            }, 1500);
+          }
+        });
       }
     } catch (error) {
       console.log(error.message);
@@ -62,13 +73,23 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
 
   return (
     <div className='form-container d-flex justify-content-center align-items-center bg-dark bg-gradient'>
+      {/* Mensaje emergente dentro de un modal para la confirmacion de edición*/}
+      <div class="modal fade" id="successful-modification" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div className="alert alert-success m-0 text-center" role="alert">
+              Successful Modification!
+            </div>
+          </div>
+        </div>
+      </div>
       <form
         className='form rounded text-light'
         autoComplete='off'
         onSubmit={handleSubmit}
       >
         <h3 className='text-center'>{task.length != 0 ? "Edit" : "Create"} Task</h3>
-        <hr class="border border-light border-1 opacity-50" />
+        <hr className="border border-light border-1 opacity-50" />
         <div className="mb-3">
           <label for="title" className="form-label fw-semibold">Title</label>
           <input
