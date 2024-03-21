@@ -1,36 +1,60 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './formStyles.css';
-import { createTask } from '../../services/tasks';
+import { createTask, updateTask } from '../../services/tasks';
 
-function Form({ alert, showAlert, isRefresh, setRefresh }) {
-  const [task, setTask] = useState([]);
+function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
   const navigate = useNavigate();
   const [body, setBody] = useState({
     title: '',
     description: ''
   });
 
+  const [editBody, setEditBody] = useState({
+    title: '',
+    description: ''
+  })
+
+  useEffect(() => {
+    if (task.length != 0) {
+      setEditBody({
+        title: task.title,
+        description: task.description
+      });
+    }
+  }, [task])
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setBody({ ...body, [name]: value });
+    if (task.length == 0) { //No hay un id, por ende, el state task es un array vacio
+      const { name, value } = e.target;
+      setBody({ ...body, [name]: value });
+    } else {
+      const { name, value } = e.target;
+      setEditBody({ ...editBody, [name]: value });
+    }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      createTask(body).then((data) => {
-        if (data.message == "llave duplicada viola restricción de unicidad «task_title_key»") {
-          window.alert("Tarea Existente");
-        } else {
-          showAlert(true);
-          setRefresh(true);
-          navigate('/');
-          setTimeout(() => {
-            showAlert(false);
-          }, 2000);
-        }
-      });
+      if (task.length == 0) { //No hay un id, por ende, el state task es un array vacio
+        createTask(body).then((data) => {
+          if (data.message == "llave duplicada viola restricción de unicidad «task_title_key»") {
+            window.alert("Tarea Existente");
+          } else {
+            showAlert(true);
+            setRefresh(true);
+            navigate('/');
+            setTimeout(() => {
+              showAlert(false);
+            }, 2000);
+          }
+        });
+      } else {
+        updateTask(editBody, task.id);
+        // setRefresh(true);
+        navigate('/');
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -43,7 +67,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh }) {
         autoComplete='off'
         onSubmit={handleSubmit}
       >
-        <h3 className='text-center'>Create Task {task.title}</h3>
+        <h3 className='text-center'>{task.length != 0 ? "Edit" : "Create"} Task</h3>
         <hr class="border border-light border-1 opacity-50" />
         <div className="mb-3">
           <label for="title" className="form-label fw-semibold">Title</label>
@@ -55,9 +79,10 @@ function Form({ alert, showAlert, isRefresh, setRefresh }) {
             aria-describedby="text"
             placeholder='Example of title task'
             onChange={handleChange}
+            value={task.length == 0 ? null : editBody.title}
             required
           />
-          <div id="title-help" className="form-text text-secondary">Write the title of task</div>
+          <div id="title-help" className="form-text text-secondary">{task.length != 0 ? "Edit" : "Write"} the title of task</div>
         </div>
         <div className="mb-3">
           <label for="description" className="form-label fw-semibold">Description</label>
@@ -69,11 +94,12 @@ function Form({ alert, showAlert, isRefresh, setRefresh }) {
             placeholder='Example of description task'
             rows={3}
             onChange={handleChange}
+            value={task.length == 0 ? null : editBody.description}
             required
           />
-          <div id="description-help" className="form-text text-secondary">Write the description of task</div>
+          <div id="description-help" className="form-text text-secondary">{task.length != 0 ? "Edit" : "Write"} the description of task</div>
         </div>
-        <button type="submit" className="btn btn-primary">Create</button>
+        <button type="submit" className="btn btn-primary">{task.length != 0 ? "Save" : "Create"}</button>
       </form>
     </div>
   )

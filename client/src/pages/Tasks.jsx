@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import AddTask from './AddTask'
 import TaskList from '../components/TaskList/TaskList'
 import { getAllTasks, getTask } from '../services/tasks';
 

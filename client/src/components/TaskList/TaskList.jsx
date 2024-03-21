@@ -23,7 +23,6 @@ function TaskList({ alert, showAlert, tasks, setRefresh }) {
                 title={task.title}
                 description={task.description}
                 id={task.id}
-                task={task}
                 setRefresh={setRefresh}
               />
             ))

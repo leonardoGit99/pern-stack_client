@@ -4,7 +4,7 @@ import { deleteTask } from '../../services/tasks'
 import { useNavigate } from 'react-router-dom'
 import './cardStyles.css';
 
-function Card({ title, description, id, setRefresh, task }) {
+function Card({ title, description, id, setRefresh}) {
   const navigate = useNavigate();
   const handleClick = async (action) => {
     if (action == "delete") {
@@ -18,7 +18,7 @@ function Card({ title, description, id, setRefresh, task }) {
   }
   return (
     <>
-      <div className="card w-100 mb-3 text-light" id='id'>
+      <div className="card w-100 mb-3 text-light" id={id}>
         <div className="card-body">
           <div className='d-flex justify-content-between align-items-center'>
             <div>
@@ -40,12 +40,12 @@ function Card({ title, description, id, setRefresh, task }) {
                 type="button"
                 className="btn btn-danger"
                 data-bs-toggle="modal"
-                data-bs-target="#deleteModal"
+                data-bs-target={`#deleteModal-${id}`}
               >
                 <i className="bi bi-trash" />
               </button>
               {/* Modal */}
-              <div className="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div className="modal fade" id={`deleteModal-${id}`} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                   <div className="modal-content text-black">
                     <div className="modal-header">
