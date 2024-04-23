@@ -1,5 +1,5 @@
 .form-container {
-  height: 92vh;
+  min-height: 86vh;
 }
 
 .form {
