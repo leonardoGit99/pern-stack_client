@@ -16,6 +16,8 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
     description: ''
   })
 
+
+
   useEffect(() => {
     if (task.length != 0) {
       setEditBody({
@@ -26,7 +28,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
   }, [task])
 
   const handleChange = (e) => {
-    if (task.length == 0) { //No hay un id, por ende, el state task es un array vacio
+    if (task.length == 0) { //No hay un id, por lo tanto, el state task es un array vacio
       const { name, value } = e.target;
       setBody({ ...body, [name]: value });
     } else {
@@ -60,7 +62,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
             navigate('/');
             let successMsgMofification = new Modal(document.getElementById('successful-modification'));
             successMsgMofification.show();
-            setTimeout(()=>{
+            setTimeout(() => {
               successMsgMofification.hide();
             }, 1500);
           }
@@ -101,6 +103,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
             placeholder='Example of title task'
             onChange={handleChange}
             value={task.length == 0 ? null : editBody.title}
+            autoFocus
             required
           />
           <div id="title-help" className="form-text text-secondary">{task.length != 0 ? "Edit" : "Write"} the title of task</div>
@@ -120,7 +123,17 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
           />
           <div id="description-help" className="form-text text-secondary">{task.length != 0 ? "Edit" : "Write"} the description of task</div>
         </div>
-        <button type="submit" className="btn btn-primary">{task.length != 0 ? "Save" : "Create"}</button>
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={
+            task.length === 0
+              ? body.title === '' && body.description === '' 
+              : editBody.title === task.title && editBody.description === task.description 
+          }
+        >
+          {task.length != 0 ? "Save" : "Create"}
+        </button>
       </form>
     </div>
   )

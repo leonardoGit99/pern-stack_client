@@ -1,12 +1,48 @@
 .card {
   background-color: rgb(31, 38, 47) !important;
-  box-shadow: 0 3px 17px  rgba(125, 122, 122, 0.9);
+  box-shadow: 0 1px 10px  rgba(125, 122, 122, 0.9);
 }
 
 .card:last-child {
-  margin-bottom: 0 !important;
+  margin-bottom: 60px !important;
 }
 
-.p-card-body{
-  flex:  1 0 40%;
+.vertical-line {
+  height: 100%;
+  min-height: 100%;
+  width: 1px;
+  opacity: 0.5;
+  background-color: aliceblue;
+}
+
+@media ( width <= 576px ) {
+  .card-flex-container{
+    flex-direction: column;
+  }
+
+  .card__buttons{
+    width: 100% !important;
+    margin-top: 20px;
+  }
+
+  .vertical-line {
+    display: none;
+  }
+
+}
+
+@media ( 576px <= width <= 768px ) {
+  .card-flex-container{
+    flex-direction: column;
+  } 
+
+  .card__buttons{
+    width: 100% !important;
+    margin-top: 20px;
+    gap: 0 17px
+  }
+
+  .vertical-line {
+    display: none;
+  }
 }

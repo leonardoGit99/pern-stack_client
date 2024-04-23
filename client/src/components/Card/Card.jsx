@@ -19,13 +19,16 @@ function Card({ title, description, id, setRefresh }) {
   return (
     <>
       <div className="card w-100 mb-3 text-light" key={id}>
-        <div className="card-body">
-          <div className='d-flex justify-content-between align-items-center'>
-            <div className='p-card-body'>
-              <h5 className="card-title">{title}</h5>
-              <p className="card-text">{description}</p>
+        <div className="card-body row">
+          <div className='card-flex-container  d-flex  justify-content-between align-items-center'>
+            <div className='col-10 col-xs-12  p-3 '>
+              <h5 className="card-title fw-bold">{title}</h5>
+              <p className="card-text fw-light">{description}</p>
             </div>
-            <div>
+            <div className='vertical-line'>
+              &nbsp;
+            </div>
+            <div className='card__buttons col-2 col-xs-0 d-flex justify-content-center'>
               <button
                 type="button"
                 className="btn btn-primary me-3"
@@ -57,8 +60,8 @@ function Card({ title, description, id, setRefresh }) {
                     Are you sure to delete the task "{title}"?
                   </div>
                   <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal" id="confirmDeleteBtn" onClick={() => { handleClick("delete") }}>Ok</button>
+                    <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" className="btn btn-danger btn-sm" data-bs-dismiss="modal" id="confirmDeleteBtn" onClick={() => { handleClick("delete") }}>Ok</button>
                   </div>
                 </div>
               </div>

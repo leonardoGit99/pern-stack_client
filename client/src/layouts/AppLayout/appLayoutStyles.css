@@ -1,4 +1,4 @@
 .pages-container {
   padding-top: 8vh !important;
-  height: 100vh;
+  min-height: 100vh;
 }

@@ -14,22 +14,16 @@ function Tasks({ alert, showAlert, isRefresh, setRefresh }) {
   }, [isRefresh]);
 
 
+
   return (
     <>
-      {
-        isRefresh
-          ?
-          <div className='d-flex h-100 justify-content-center align-items-center'>
-            <div className="loader"></div>
-          </div>
-          :
-          <TaskList
-            alert={alert}
-            setAlert={showAlert}
-            tasks={tasks}
-            setRefresh={setRefresh}
-          />
-      }
+      <TaskList
+        alert={alert}
+        setAlert={showAlert}
+        tasks={tasks}
+        setRefresh={setRefresh}
+        isRefresh={isRefresh}
+      />
     </>
   )
 }
