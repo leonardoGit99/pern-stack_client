@@ -28,6 +28,9 @@ function Card({ title, description, id, setRefresh }) {
             <div className='vertical-line'>
               &nbsp;
             </div>
+            <div className='horizontal-line'>
+              &nbsp;
+            </div>
             <div className='card__buttons col-2 col-xs-0 d-flex justify-content-center'>
               <button
                 type="button"
