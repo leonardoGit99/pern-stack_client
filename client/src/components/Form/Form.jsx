@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
 import { useNavigate } from 'react-router-dom';
 import './formStyles.css';
 import { createTask, updateTask } from '../../services/tasks';
@@ -6,10 +7,16 @@ import { Modal } from 'bootstrap'
 
 function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
   const navigate = useNavigate();
+  const [images, setImages] = useState([]);
   const [body, setBody] = useState({
     title: '',
-    description: ''
+    description: '',
+    imgs: images,
   });
+
+  useEffect(() => {
+    setBody(prevBody => ({ ...prevBody, imgs: images }));
+  }, [images]);
 
   const [editBody, setEditBody] = useState({
     title: '',
@@ -17,12 +24,16 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
   })
 
 
+  const onDrop = useCallback(acceptedFiles => { // Es como un onChange encargado de capturar lo que se sube en el drag and drop
+    setImages((prevImages) => [...prevImages, ...acceptedFiles]);
+  }, [])
+  const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone({ onDrop })
 
   useEffect(() => {
     if (task.length != 0) {
       setEditBody({
         title: task.title,
-        description: task.description
+        description: task.description,
       });
     }
   }, [task])
@@ -39,9 +50,15 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append('title', body.title);
+    formData.append('description', body.description);
+    body.imgs.forEach((image) => {
+      formData.append('imgs', image);
+    });
     try {
       if (task.length == 0) { //No hay un id, por ende, el state task es un array vacio
-        createTask(body).then((data) => {
+        createTask(formData).then((data) => {
           if (data.message == "llave duplicada viola restricción de unicidad «task_title_key»") {
             window.alert("Tarea Existente");
           } else {
@@ -91,7 +108,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
         onSubmit={handleSubmit}
       >
         <h3 className='text-center'>{task.length != 0 ? "Edit" : "Create"} Task</h3>
-        <hr className="border border-light border-1 opacity-50" />
+        <hr className="border border-light border-1 opacity-40" />
         <div className="mb-3">
           <label for="title" className="form-label fw-semibold">Title</label>
           <input
@@ -123,13 +140,30 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
           />
           <div id="description-help" className="form-text text-secondary">{task.length != 0 ? "Edit" : "Write"} the description of task</div>
         </div>
+        <label for="imgs" className="form-label fw-semibold">Image(s)</label>
+        <div name="imgs" className='drag-drop-container d-flex justify-content-center align-items-center fw-light p-3' {...getRootProps()}>
+          {/* <input id="imgs" className='d-flex flex-column justify-content-center align-items-center'{...getInputProps()} /> */}
+          {
+            isDragActive ?
+              <span>Drop the files here ...</span> :
+              <span>Drag 'n' drop some images here, or click to select files</span>
+          }
+        </div>
+        <div className='mb-4'>
+          {
+            images.map((image, index) => (
+              <p key={index}>{image.name}</p>
+            ))
+          }
+        </div>
+
         <button
           type="submit"
           className="btn btn-primary"
           disabled={
             task.length === 0
-              ? body.title === '' && body.description === '' 
-              : editBody.title === task.title && editBody.description === task.description 
+              ? body.title === '' && body.description === ''
+              : editBody.title === task.title && editBody.description === task.description
           }
         >
           {task.length != 0 ? "Save" : "Create"}

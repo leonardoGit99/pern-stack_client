@@ -1,9 +1,9 @@
-import { baseLocalUrl as api, headers } from "./api.config";
+import { baseLocalUrl as api, headers, headers2 } from "./api.config";
 import axios from "axios";
 
 
 export const createTask = async (body) => {
-  const response = await axios.post(`${api}/tasks`, JSON.stringify(body), { headers });
+  const response = await axios.post(`${api}/tasks`, body, { headers2 });
   return response.data;
 }
 

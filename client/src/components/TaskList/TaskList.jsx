@@ -25,11 +25,11 @@ function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh }) {
                 ? <span style={{color:'white'}}> Create a new task...</span>
                 : tasks.map((task) => (
                   <Card
-                    key={task.id}
+                    key={task.task_id}
                     title={task.title}
                     description={task.description}
-                    id={task.id}
-                    setRefresh={setRefresh}
+                    id={task.task_id}
+                    setRefresh={setRefresh}     
                   />
                 ))
             )

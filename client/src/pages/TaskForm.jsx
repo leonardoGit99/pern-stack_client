@@ -15,6 +15,7 @@ function TaskForm({ alert, showAlert, isRefresh, setRefresh }) {
     }
   }, [idTask]);
 
+  console.log(task);
 
   return (
     <div>

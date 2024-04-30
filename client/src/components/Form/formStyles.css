@@ -12,3 +12,18 @@
 #description {
   resize: none;
 }
+
+.drag-drop-container {
+  border: 1px dashed #fff;
+  border-radius: 7px;
+  background-color: #32363A;
+  color: #fff;
+  height: 100px;
+  width: 100%;
+}
+
+.drag-drop-container:hover {
+  cursor: pointer;
+}
+
+

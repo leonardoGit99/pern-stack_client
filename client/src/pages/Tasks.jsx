@@ -14,7 +14,6 @@ function Tasks({ alert, showAlert, isRefresh, setRefresh }) {
   }, [isRefresh]);
 
 
-
   return (
     <>
       <TaskList
