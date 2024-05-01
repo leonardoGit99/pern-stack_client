@@ -24,6 +24,11 @@
 }
 
 
+.carousel-indicators [data-bs-target] {
+  border-top: 2px solid #f5f5f5 !important;
+  border-bottom: 2px solid #f5f5f5 !important;
+}
+
 
 @media ( width <= 576px ) {
   .card-flex-container{

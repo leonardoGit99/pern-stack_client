@@ -93,9 +93,9 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
   return (
     <div className='form-container d-flex justify-content-center align-items-center bg-dark bg-gradient'>
       {/* Mensaje emergente dentro de un modal para la confirmacion de edición*/}
-      <div class="modal fade" id="successful-modification" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
+      <div className="modal fade" id="successful-modification" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
             <div className="alert alert-success m-0 text-center" role="alert">
               Successful Modification!
             </div>

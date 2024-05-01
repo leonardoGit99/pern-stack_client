@@ -2,7 +2,7 @@ import React from 'react';
 import Card from '../Card/Card';
 import './taskListStyles.css'
 
-function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh }) {
+function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh}) {
   return (
     <>
       <div className='container pt-4'>
