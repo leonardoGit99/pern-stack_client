@@ -3,8 +3,9 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 import { deleteTask } from '../../services/tasks'
 import { useNavigate } from 'react-router-dom';
 import { Modal } from 'bootstrap';
-import './cardStyles.css';
 import { getImgsTask } from '../../services/imgs';
+import { baseLocalUrl as api} from "../../services/api.config";
+import './cardStyles.css';
 
 function Card({ title, description, id, setRefresh }) {
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ function Card({ title, description, id, setRefresh }) {
                         <div className="carousel-inner">
                           {imgsTask.image_paths && imgsTask.image_paths.map((img, index) => (
                             <div key={index} className={index === 0 ? "carousel-item active" : "carousel-item"}>
-                              <img src={`http://localhost:4000/image/${img}`} className="d-block w-100" />
+                              <img src={`${api}/image/${img}`} className="d-block w-100" />
                             </div>
                           ))}
                         </div>
