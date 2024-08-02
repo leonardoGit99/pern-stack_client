@@ -1,8 +1,9 @@
 import React from 'react';
 import Card from '../Card/Card';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import './taskListStyles.css'
 
-function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh}) {
+function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh }) {
   return (
     <>
       <div className='container pt-4'>
@@ -11,7 +12,7 @@ function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh}) {
             Task created successfully!
           </div>
         )}
-        <h2 className='d-block mb-4 text-center text-light'>Task List</h2>
+        <h2 className='d-block mb-4 text-center text-light'> <i class="bi bi-list-task"></i> Tasks</h2>
         <hr className="border border-light border-1 opacity-40" />
         {
           isRefresh
@@ -22,14 +23,14 @@ function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh}) {
             )
             : (
               tasks.length === 0
-                ? <span style={{color:'white'}}> Create a new task...</span>
+                ? <span style={{ color: 'white' }}> Create a new task...</span>
                 : tasks.map((task) => (
                   <Card
                     key={task.task_id}
                     title={task.title}
                     description={task.description}
                     id={task.task_id}
-                    setRefresh={setRefresh}     
+                    setRefresh={setRefresh}
                   />
                 ))
             )

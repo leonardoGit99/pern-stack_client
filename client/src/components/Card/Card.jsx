@@ -28,6 +28,8 @@ function Card({ title, description, id, setRefresh }) {
     }
   }
 
+  console.log(imgsTask);
+  
   return (
 
     <div className="card w-100 mb-3 text-light" key={id}>

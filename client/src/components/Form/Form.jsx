@@ -8,6 +8,7 @@ import { Modal } from 'bootstrap'
 function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [body, setBody] = useState({
     title: '',
     description: '',
@@ -50,6 +51,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const formData = new FormData();
     formData.append('title', body.title);
     formData.append('description', body.description);
@@ -61,7 +63,9 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
         createTask(formData).then((data) => {
           if (data.message == "llave duplicada viola restricción de unicidad «task_title_key»") {
             window.alert("Tarea Existente");
+            setLoading(false);
           } else {
+            setLoading(false);
             navigate('/');
             setRefresh(true);
             showAlert(true);
@@ -74,7 +78,9 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
         updateTask(editBody, task.id).then((data) => {
           if (data.message == "llave duplicada viola restricción de unicidad «task_title_key»") {
             window.alert("Tarea Existente");
+            setLoading(false);
           } else {
+            setLoading(false);
             setRefresh(true);
             navigate('/');
             let successMsgMofification = new Modal(document.getElementById('successful-modification'));
@@ -88,6 +94,11 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
     } catch (error) {
       console.log(error.message);
     }
+  }
+
+  const onCancel = () => {
+    setRefresh(true);
+    navigate("/");
   }
 
   return (
@@ -177,17 +188,32 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
             )
         }
 
-        <button
-          type="submit"
-          className="btn btn-primary"
-          disabled={
-            task.length === 0
-              ? body.title === '' && body.description === ''
-              : editBody.title === task.title && editBody.description === task.description
-          }
-        >
-          {task.length != 0 ? "Save" : "Create"}
-        </button>
+        <div className='space-btns'>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={
+              loading || (task.length === 0
+                ? body.title === '' && body.description === ''
+                : editBody.title === task.title && editBody.description === task.description)
+            }
+          >
+            {task.length != 0
+              ? loading
+                ? "Saving..."
+                : "Save"
+              : loading
+                ? "Creating..."
+                : "Create"}
+          </button>
+
+          <button
+            className="btn btn-secondary"
+            onClick={() => onCancel()}
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   )

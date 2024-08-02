@@ -21,7 +21,7 @@ function App() {
   }
   return (
     <Routes>
-      <Route path='/' element={<AppLayout />}>
+      <Route path='/' element={<AppLayout setRefresh={setRefresh}/>}>
         <Route index element={<Tasks alert={alert} showAlert={showAlert} isRefresh={isRefresh} setRefresh={setRefresh}/>} />
         <Route path='task-form' element={<TaskForm alert={alert} showAlert={showAlert} isRefresh={isRefresh} setRefresh={setRefresh}/>}/>
         <Route path='edit-task/:idTask' element={<TaskForm isRefresh={isRefresh} setRefresh={setRefresh}/>} />

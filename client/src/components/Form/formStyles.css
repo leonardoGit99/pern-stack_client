@@ -22,9 +22,16 @@
   width: 100%;
 }
 
+.space-btns {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
 .drag-drop-container:hover {
   cursor: pointer;
 }
+
 
 .ellipsis {
   overflow: hidden;           

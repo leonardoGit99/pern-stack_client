@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import './navBarStyles.css';
 
-function NavBar() {
+function NavBar({ setRefresh }) {
   const navigate = useNavigate();
-  const handleClick = () => {
-    navigate('task-form');
+  const location = useLocation();
+  const { idTask } = useParams();
+  const handleClick = (event) => {
+    if (event == "newTask") {
+      navigate('task-form');
+    } else {
+      setRefresh(true);
+      navigate('/');
+    }
   }
+
 
   return (
     <>
@@ -19,7 +27,26 @@ function NavBar() {
               <span className="navbar-toggler-icon"></span>
             </button> */}
             <div /* className="collapse navbar-collapse" */ id="navbarNav">
-              <button type="button" className="btn btn-primary btn-sm" onClick={() => handleClick()}><i className="bi bi-plus-circle"></i> New Task </button>
+              {location.pathname === "/task-form"
+                ?
+                <button
+                  type="button"
+                  className="btn btn-primary btn-sm"
+                  onClick={() => handleClick("goBackTasks")}
+                >
+                  <i class="bi bi-arrow-left-circle"></i> Go to Tasks
+                </button>
+                : location.pathname === `/edit-task/${idTask}` ?
+                  <></>
+                  :
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-sm"
+                    onClick={() => handleClick("newTask")}
+                  >
+                    <i className="bi bi-plus-circle"></i> New Task
+                  </button>
+              }
             </div>
           </div>
         </div>

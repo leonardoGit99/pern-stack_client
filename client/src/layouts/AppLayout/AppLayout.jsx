@@ -4,10 +4,10 @@ import { Outlet } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
 import './appLayoutStyles.css';
 
-function AppLayout() {
+function AppLayout({setRefresh}) {
   return (
     <div>
-      <NavBar />
+      <NavBar setRefresh={setRefresh}/>
       <div className='pages-container'>
         <Outlet />
       </div>
