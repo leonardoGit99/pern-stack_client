@@ -15,6 +15,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
     imgs: images,
   });
 
+  
   useEffect(() => {
     setBody(prevBody => ({ ...prevBody, imgs: images }));
   }, [images]);
@@ -75,7 +76,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
           }
         });
       } else {
-        updateTask(editBody, task.id).then((data) => {
+        updateTask(editBody, task.task_id).then((data) => {
           if (data.message == "llave duplicada viola restricción de unicidad «task_title_key»") {
             window.alert("Tarea Existente");
             setLoading(false);
