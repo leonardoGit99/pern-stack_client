@@ -5,7 +5,7 @@ import './formStyles.css';
 import { createTask, updateTask } from '../../services/tasks';
 import { Modal } from 'bootstrap'
 
-function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
+function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
   const [body, setBody] = useState({
@@ -140,22 +140,42 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task }) {
           />
           <div id="description-help" className="form-text text-secondary">{task.length != 0 ? "Edit" : "Write"} the description of task</div>
         </div>
-        <label for="imgs" className="form-label fw-semibold">Image(s)</label>
-        <div name="imgs" className='drag-drop-container d-flex justify-content-center align-items-center fw-light p-3' {...getRootProps()}>
-          {/* <input id="imgs" className='d-flex flex-column justify-content-center align-items-center'{...getInputProps()} /> */}
-          {
-            isDragActive ?
-              <span>Drop the files here ...</span> :
-              <span>Drag 'n' drop some images here, or click to select files</span>
-          }
-        </div>
-        <div className='mb-4'>
-          {
-            images.map((image, index) => (
-              <p key={index}>{image.name}</p>
-            ))
-          }
-        </div>
+        <label for="imgs" className="form-label fw-semibold">Image(s)</label><br />
+        {
+          task.length == 0
+            ? (
+              <>
+                <div name="imgs" className='drag-drop-container d-flex justify-content-center align-items-center fw-light p-3' {...getRootProps()}>
+                  {/* <input id="imgs" className='d-flex flex-column justify-content-center align-items-center'{...getInputProps()} /> */}
+                  {
+                    isDragActive ?
+                      <span>Drop the files here ...</span> :
+                      <span>Drag 'n' drop some images here, or click to select files</span>
+                  }
+                </div>
+                <div className='mb-4'>
+                  {
+                    images && images?.map((image, index) => (
+                      <p key={index}>{image.name}</p>
+                    ))
+                  }
+                </div>
+              </>
+
+            )
+            : (
+
+              <div className='mb-4 w-100 ellipsis'>
+                {
+                  savedImgs && savedImgs.image_paths.map((image, index) => (
+                    <>
+                      <a key={index} href={image} target='_blank'>{image}</a> <br />
+                    </>
+                  ))
+                }
+              </div>
+            )
+        }
 
         <button
           type="submit"
