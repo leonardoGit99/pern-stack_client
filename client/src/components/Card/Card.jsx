@@ -7,7 +7,7 @@ import { getImgsTask } from '../../services/imgs';
 import { baseLocalUrl as api } from "../../services/api.config";
 import './cardStyles.css';
 
-function Card({ title, description, id, setRefresh }) {
+function Card({ title, description, id, setRefresh, stateTask }) {
   const navigate = useNavigate();
   const [imgsTask, setImgsTask] = useState({});
 
@@ -29,15 +29,25 @@ function Card({ title, description, id, setRefresh }) {
     }
   }
 
-  
+
   return (
 
     <div className="card w-100 mb-3 text-light" key={id}>
       <div className="card-body row">
         <div className='card-flex-container  d-flex  justify-content-between align-items-center'>
-          <div className='col-10 col-xs-12  p-3 '>
-            <h5 className="card-title fw-bold">{title}</h5>
-            <p className="card-text fw-light">{description}</p>
+          <div className='col-8 col-xs-12  p-3 '>
+            <h5
+              className={stateTask == "Realized"
+                ? "card-title fw-bold text-decoration-line-through"
+                : "card-title fw-bold"}
+            >
+              {title}
+            </h5>
+            <p className={stateTask == "Realized"
+              ? "card-text fw-light text-decoration-line-through"
+              : "card-text fw-light"}>
+              {description}
+            </p>
           </div>
           <div className='vertical-line'>
             &nbsp;
@@ -45,7 +55,7 @@ function Card({ title, description, id, setRefresh }) {
           <div className='horizontal-line'>
             &nbsp;
           </div>
-          <div className='card__buttons col-2 col-xs-0 d-flex justify-content-center'>
+          <div className='card__buttons col-4 col-xs-0 d-flex justify-content-center'>
             {/* Button trigger VIEW IMG modal */}
             <button
               type="button"

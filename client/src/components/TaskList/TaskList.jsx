@@ -4,6 +4,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import './taskListStyles.css'
 
 function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh }) {
+  const toDoTasks = tasks.filter(task => task.state_task === 'ToDo');
+  const taskRealized = tasks.filter(task => task.state_task === 'Realized')
   return (
     <>
       <div className='container pt-4'>
@@ -22,17 +24,48 @@ function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh }) {
               </div>
             )
             : (
-              tasks.length === 0
-                ? <span style={{ color: 'white' }}> Create a new task...</span>
-                : tasks.map((task) => (
-                  <Card
-                    key={task.task_id}
-                    title={task.title}
-                    description={task.description}
-                    id={task.task_id}
-                    setRefresh={setRefresh}
-                  />
-                ))
+              <>
+                {tasks.length === 0
+                  ? <span style={{ color: 'white' }}>Create a new task...</span>
+                  : (
+                    <table className='table table-dark'>
+                      <thead>
+                        <tr className='text-center'>
+                          <th scope='col' className='col-6'><span className='text-secondary'><i class="bi bi-hourglass-split"></i> ToDo</span></th>
+                          <th scope='col' className='col-6'> <span className='text-success'><i class="bi bi-check-lg"></i> Realized</span></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            {toDoTasks && toDoTasks.map((task) => (
+                              <Card
+                                key={task.task_id}
+                                title={task.title}
+                                description={task.description}
+                                id={task.task_id}
+                                setRefresh={setRefresh}
+                              />
+                            ))}
+                          </td>
+                          <td>
+                            {taskRealized && taskRealized.map((task) => (
+                              <Card
+                                key={task.task_id}
+                                title={task.title}
+                                description={task.description}
+                                stateTask = {"Realized"}
+                                id={task.task_id}
+                                setRefresh={setRefresh}
+                              />
+                            ))}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  )
+                }
+              </>
             )
         }
       </div>

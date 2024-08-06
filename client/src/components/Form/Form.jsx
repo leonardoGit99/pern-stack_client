@@ -11,6 +11,10 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
   const [loading, setLoading] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
   const [deletedUrls, setDeletedUrls] = useState([]);
+  const [taskState, setTaskState] = useState("");
+
+  console.log(taskState);
+
   const [body, setBody] = useState({
     title: '',
     description: '',
@@ -22,13 +26,22 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
   }, [savedImgs]);
 
   useEffect(() => {
+    if (task && task.state_task === 'ToDo') {
+      setTaskState("ToDo");
+    } else {
+      setTaskState("Realized");
+    }
+  }, [savedImgs]);
+
+  useEffect(() => {
     setBody(prevBody => ({ ...prevBody, imgs: images }));
   }, [images]);
 
   const [editBody, setEditBody] = useState({
     title: '',
     description: '',
-    imageUrls: []
+    imageUrls: [],
+    stateTask: taskState
   })
 
   const onDrop = useCallback(acceptedFiles => { // Es como un onChange encargado de capturar lo que se sube en el drag and drop
@@ -41,10 +54,11 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
       setEditBody({
         title: task.title,
         description: task.description,
-        imageUrls: deletedUrls
+        imageUrls: deletedUrls,
+        stateTask: taskState
       });
     }
-  }, [task, savedImgs, deletedUrls])
+  }, [task, savedImgs, deletedUrls, taskState])
 
   const handleChange = (e) => {
     if (task.length == 0) { //No hay un id, por lo tanto, el state task es un array vacio
@@ -103,6 +117,10 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
     }
   }
 
+  const handleStateTaskChange = () => {
+    setTaskState(prevState => prevState === 'ToDo' ? 'Realized' : 'ToDo');
+  };
+
   const onDelete = (urlToDelete) => {
     const urlsUpdated = imageUrls.filter(url => url !== urlToDelete);
     setImageUrls(urlsUpdated);
@@ -133,6 +151,27 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
         autoComplete='off'
         onSubmit={handleSubmit}
       >
+        {
+          task.length != 0
+            ?
+            <div className="form-check form-switch">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="flexSwitchCheckDefault"
+                checked={taskState === 'ToDo' ? false : true}
+                onChange={handleStateTaskChange}
+              />
+              <label
+                className="form-check-label"
+                htmlFor="flexSwitchCheckDefault"
+              >
+                {taskState == 'Realized' ? <span className='text-success'><i class="bi bi-check-lg"></i> Realized</span> : <span className='text-secondary'><i class="bi bi-hourglass-split"></i> ToDo</span>}
+              </label>
+            </div>
+            : ""
+        }
         <h3 className='text-center'>{task.length != 0 ? "Edit" : "Create"} Task</h3>
         <hr className="border border-light border-1 opacity-40" />
         <div className="mb-3">
@@ -220,10 +259,11 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
             type="submit"
             className="btn btn-primary"
             disabled={
-              loading || (task.length === 0
-                ? body.title === '' && body.description === ''
-                : editBody.title === task.title && editBody.description === task.description) &&
-              deletedUrls.length === 0
+              loading || (
+                task.length === 0
+                  ? (body.title === '' || body.description === '')
+                  : (editBody.title === task.title && editBody.description === task.description && deletedUrls.length === 0 && task.state_task === taskState)
+              )
             }
           >
             {task.length != 0
