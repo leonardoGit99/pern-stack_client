@@ -39,4 +39,26 @@
   white-space: nowrap;        
 }
 
+.table-container {
+  background-color: #1F262F;
+  max-height: 150px !important;
+  overflow-x: hidden;
+  overflow-y: auto !important;
+}
+
+
+
+
+
+.td-image-url {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.img-url {
+  font-size: small;
+}
+
 

@@ -21,6 +21,7 @@ function Card({ title, description, id, setRefresh }) {
       navigate(`/edit-task/${id}`);
     } else if (action == "view") {
       getImgsTask(id).then((data) => {
+        console.log(data);
         setImgsTask(data);
       });
       /* let imgModal = new Modal(document.getElementById('img-modal'));
@@ -28,7 +29,6 @@ function Card({ title, description, id, setRefresh }) {
     }
   }
 
-  console.log(imgsTask);
   
   return (
 

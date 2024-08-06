@@ -9,22 +9,27 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [imageUrls, setImageUrls] = useState([]);
+  const [deletedUrls, setDeletedUrls] = useState([]);
   const [body, setBody] = useState({
     title: '',
     description: '',
     imgs: images,
   });
 
-  
+  useEffect(() => {
+    setImageUrls(savedImgs.image_paths);
+  }, [savedImgs]);
+
   useEffect(() => {
     setBody(prevBody => ({ ...prevBody, imgs: images }));
   }, [images]);
 
   const [editBody, setEditBody] = useState({
     title: '',
-    description: ''
+    description: '',
+    imageUrls: []
   })
-
 
   const onDrop = useCallback(acceptedFiles => { // Es como un onChange encargado de capturar lo que se sube en el drag and drop
     setImages((prevImages) => [...prevImages, ...acceptedFiles]);
@@ -36,9 +41,10 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
       setEditBody({
         title: task.title,
         description: task.description,
+        imageUrls: deletedUrls
       });
     }
-  }, [task])
+  }, [task, savedImgs, deletedUrls])
 
   const handleChange = (e) => {
     if (task.length == 0) { //No hay un id, por lo tanto, el state task es un array vacio
@@ -53,14 +59,14 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const formData = new FormData();
-    formData.append('title', body.title);
-    formData.append('description', body.description);
-    body.imgs.forEach((image) => {
-      formData.append('imgs', image);
-    });
     try {
       if (task.length == 0) { //No hay un id, por ende, el state task es un array vacio
+        const formData = new FormData();
+        formData.append('title', body.title);
+        formData.append('description', body.description);
+        body.imgs.forEach((image) => {
+          formData.append('imgs', image);
+        });
         createTask(formData).then((data) => {
           if (data.message == "llave duplicada viola restricción de unicidad «task_title_key»") {
             window.alert("Tarea Existente");
@@ -97,6 +103,14 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
     }
   }
 
+  const onDelete = (urlToDelete) => {
+    const urlsUpdated = imageUrls.filter(url => url !== urlToDelete);
+    setImageUrls(urlsUpdated);
+
+    // Add url deleted to deletedUrls' array
+    setDeletedUrls(prevDeletedUrls => [...prevDeletedUrls, urlToDelete]);
+  }
+
   const onCancel = () => {
     setRefresh(true);
     navigate("/");
@@ -105,7 +119,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
   return (
     <div className='form-container d-flex justify-content-center align-items-center bg-dark bg-gradient'>
       {/* Mensaje emergente dentro de un modal para la confirmacion de edición*/}
-      <div className="modal fade" id="successful-modification" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="successful-modification" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="alert alert-success m-0 text-center" role="alert">
@@ -122,7 +136,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
         <h3 className='text-center'>{task.length != 0 ? "Edit" : "Create"} Task</h3>
         <hr className="border border-light border-1 opacity-40" />
         <div className="mb-3">
-          <label for="title" className="form-label fw-semibold">Title</label>
+          <label htmlFor="title" className="form-label fw-semibold">Title</label>
           <input
             type="text"
             className="form-control"
@@ -138,7 +152,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
           <div id="title-help" className="form-text text-secondary">{task.length != 0 ? "Edit" : "Write"} the title of task</div>
         </div>
         <div className="mb-3">
-          <label for="description" className="form-label fw-semibold">Description</label>
+          <label htmlFor="description" className="form-label fw-semibold">Description</label>
           <textarea
             type="text"
             className="form-control"
@@ -152,13 +166,13 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
           />
           <div id="description-help" className="form-text text-secondary">{task.length != 0 ? "Edit" : "Write"} the description of task</div>
         </div>
-        <label for="imgs" className="form-label fw-semibold">Image(s)</label><br />
+        <label htmlFor="imgs" className="form-label fw-semibold">Image(s)</label><br />
         {
           task.length == 0
             ? (
               <>
-                <div name="imgs" className='drag-drop-container d-flex justify-content-center align-items-center fw-light p-3' {...getRootProps()}>
-                  {/* <input id="imgs" className='d-flex flex-column justify-content-center align-items-center'{...getInputProps()} /> */}
+                <div name="imgs" className='drag-drop-container d-flex flex-column justify-content-center align-items-center fw-light p-3' {...getRootProps()}>
+                  <input id="imgs"{...getInputProps()} />
                   {
                     isDragActive ?
                       <span>Drop the files here ...</span> :
@@ -168,7 +182,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
                 <div className='mb-4'>
                   {
                     images && images?.map((image, index) => (
-                      <p key={index}>{image.name}</p>
+                      <p className='img-url m-1' key={index}>{image.name}</p>
                     ))
                   }
                 </div>
@@ -176,15 +190,27 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
 
             )
             : (
-
-              <div className='mb-4 w-100 ellipsis'>
-                {
-                  savedImgs && savedImgs.image_paths.map((image, index) => (
-                    <>
-                      <a key={index} href={image} target='_blank'>{image}</a> <br />
-                    </>
-                  ))
-                }
+              <div className='table-container'>
+                <table className='table table-dark table-borderless m-0'>
+                  <tbody>
+                    {imageUrls && imageUrls.map((image, index) => (
+                      <tr key={index}>
+                        <td className='td-image-url'>
+                          <a className='img-url' key={index} href={image} target='_blank'>{image}</a>
+                        </td>
+                        <td className='d-flex justify-content-center'>
+                          <button
+                            type='button'
+                            className='btn btn-outline-secondary btn-sm border-0'
+                            onClick={() => onDelete(image)}
+                          >
+                            <i className="bi bi-x-circle"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )
         }
@@ -196,7 +222,8 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
             disabled={
               loading || (task.length === 0
                 ? body.title === '' && body.description === ''
-                : editBody.title === task.title && editBody.description === task.description)
+                : editBody.title === task.title && editBody.description === task.description) &&
+              deletedUrls.length === 0
             }
           >
             {task.length != 0
@@ -211,6 +238,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
           <button
             className="btn btn-secondary"
             onClick={() => onCancel()}
+            disabled={loading}
           >
             Cancel
           </button>
