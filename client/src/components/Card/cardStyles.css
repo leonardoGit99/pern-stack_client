@@ -1,6 +1,6 @@
 .card {
   background-color: rgb(31, 38, 47) !important;
-  box-shadow: 0 1px 10px  rgba(125, 122, 122, 0.9);
+  box-shadow: 0 1px 5px 0  rgba(125, 122, 122, 0.9);
 }
 
 .card:last-child {
@@ -8,11 +8,11 @@
 }
 
 .card-title {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .card-text {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .vertical-line {
