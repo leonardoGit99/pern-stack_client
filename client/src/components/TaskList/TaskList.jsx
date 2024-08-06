@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Card from '../Card/Card';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './taskListStyles.css'
@@ -6,6 +6,13 @@ import './taskListStyles.css'
 function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh }) {
   const toDoTasks = tasks.filter(task => task.state_task === 'ToDo');
   const taskRealized = tasks.filter(task => task.state_task === 'Realized')
+
+
+  useEffect(() => {
+    if (tasks.length != 0) {
+      setRefresh(false);
+    }
+  }, [tasks])
   return (
     <>
       <div className='container pt-4'>
@@ -54,7 +61,7 @@ function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh }) {
                                 key={task.task_id}
                                 title={task.title}
                                 description={task.description}
-                                stateTask = {"Realized"}
+                                stateTask={"Realized"}
                                 id={task.task_id}
                                 setRefresh={setRefresh}
                               />

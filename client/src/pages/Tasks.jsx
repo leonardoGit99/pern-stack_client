@@ -10,7 +10,7 @@ function Tasks({ alert, showAlert, isRefresh, setRefresh }) {
         setTasks(data);
       });
     }
-    setRefresh(false);
+    // setRefresh(false);
   }, [isRefresh]);
 
 
