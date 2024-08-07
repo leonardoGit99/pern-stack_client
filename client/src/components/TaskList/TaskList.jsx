@@ -5,9 +5,10 @@ import './taskListStyles.css'
 
 function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh }) {
   const toDoTasks = tasks.filter(task => task.state_task === 'ToDo');
-  const taskRealized = tasks.filter(task => task.state_task === 'Realized')
+  const taskCompleted = tasks.filter(task => task.state_task === 'Completed')
 
 
+  // Solucion temporal para el loader
   useEffect(() => {
     if (tasks.length != 0) {
       setRefresh(false);
@@ -39,7 +40,7 @@ function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh }) {
                       <thead>
                         <tr className='text-center'>
                           <th scope='col' className='col-6'><span className='text-secondary'><i class="bi bi-hourglass-split"></i> ToDo</span></th>
-                          <th scope='col' className='col-6'> <span className='text-success'><i class="bi bi-check-lg"></i> Realized</span></th>
+                          <th scope='col' className='col-6'> <span className='text-success'><i class="bi bi-check-lg"></i> Completed</span></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -56,12 +57,12 @@ function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh }) {
                             ))}
                           </td>
                           <td>
-                            {taskRealized && taskRealized.map((task) => (
+                            {taskCompleted && taskCompleted.map((task) => (
                               <Card
                                 key={task.task_id}
                                 title={task.title}
                                 description={task.description}
-                                stateTask={"Realized"}
+                                stateTask={"Completed"}
                                 id={task.task_id}
                                 setRefresh={setRefresh}
                               />

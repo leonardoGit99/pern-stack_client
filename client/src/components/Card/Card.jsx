@@ -37,13 +37,13 @@ function Card({ title, description, id, setRefresh, stateTask }) {
         <div className='card-flex-container  d-flex  justify-content-between align-items-center'>
           <div className='col-8 col-xs-12  p-3 '>
             <h5
-              className={stateTask == "Realized"
+              className={stateTask == "Completed"
                 ? "card-title fw-bold text-decoration-line-through"
                 : "card-title fw-bold"}
             >
               {title}
             </h5>
-            <p className={stateTask == "Realized"
+            <p className={stateTask == "Completed"
               ? "card-text fw-light text-decoration-line-through"
               : "card-text fw-light"}>
               {description}

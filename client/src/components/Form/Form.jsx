@@ -29,7 +29,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
     if (task && task.state_task === 'ToDo') {
       setTaskState("ToDo");
     } else {
-      setTaskState("Realized");
+      setTaskState("Completed");
     }
   }, [savedImgs]);
 
@@ -118,7 +118,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
   }
 
   const handleStateTaskChange = () => {
-    setTaskState(prevState => prevState === 'ToDo' ? 'Realized' : 'ToDo');
+    setTaskState(prevState => prevState === 'ToDo' ? 'Completed' : 'ToDo');
   };
 
   const onDelete = (urlToDelete) => {
@@ -167,7 +167,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
                 className="form-check-label"
                 htmlFor="flexSwitchCheckDefault"
               >
-                {taskState == 'Realized' ? <span className='text-success'><i class="bi bi-check-lg"></i> Realized</span> : <span className='text-secondary'><i class="bi bi-hourglass-split"></i> ToDo</span>}
+                {taskState == 'Completed' ? <span className='text-success'><i class="bi bi-check-lg"></i> Completed</span> : <span className='text-secondary'><i class="bi bi-hourglass-split"></i> ToDo</span>}
               </label>
             </div>
             : ""
