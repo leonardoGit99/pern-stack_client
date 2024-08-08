@@ -14,14 +14,12 @@ function TaskForm({ alert, showAlert, isRefresh, setRefresh }) {
       getTask(idTask).then((data) => {
         setTask(data);
       })
-
       getImgsTask(idTask).then((data) => {
         setSavedImgs(data);
       })
     }
   }, [idTask]);
 
-console.log(savedImgs);
 
   return (
     <div>

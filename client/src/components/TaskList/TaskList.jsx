@@ -8,12 +8,12 @@ function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh }) {
   const taskCompleted = tasks.filter(task => task.state_task === 'Completed')
 
 
-  // Solucion temporal para el loader
-  useEffect(() => {
-    if (tasks.length != 0) {
-      setRefresh(false);
-    }
-  }, [tasks])
+  // // Solucion temporal para el loader
+  // useEffect(() => {
+  //   if (tasks.length != 0) {
+  //     setRefresh(false);
+  //   }
+  // }, [tasks])
   return (
     <>
       <div className='container pt-4'>
@@ -22,7 +22,7 @@ function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh }) {
             Task created successfully!
           </div>
         )}
-        <h2 className='d-block mb-4 text-center text-light'> <i class="bi bi-list-task"></i> Tasks</h2>
+        <h2 className='d-block mb-4 text-center text-light'> <i className="bi bi-list-task"></i> Tasks</h2>
         <hr className="border border-light border-1 opacity-40" />
         {
           isRefresh
@@ -39,8 +39,8 @@ function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh }) {
                     <table className='table table-dark'>
                       <thead>
                         <tr className='text-center'>
-                          <th scope='col' className='col-6'><span className='text-secondary'><i class="bi bi-hourglass-split"></i> ToDo</span></th>
-                          <th scope='col' className='col-6'> <span className='text-success'><i class="bi bi-check-lg"></i> Completed</span></th>
+                          <th scope='col' className='col-6'><span className='text-secondary'><i className="bi bi-hourglass-split"></i> ToDo</span></th>
+                          <th scope='col' className='col-6'> <span className='text-success'><i className="bi bi-check-lg"></i> Completed</span></th>
                         </tr>
                       </thead>
                       <tbody>

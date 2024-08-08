@@ -13,7 +13,6 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
   const [deletedUrls, setDeletedUrls] = useState([]);
   const [taskState, setTaskState] = useState("");
 
-  console.log(taskState);
 
   const [body, setBody] = useState({
     title: '',
@@ -167,7 +166,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
                 className="form-check-label"
                 htmlFor="flexSwitchCheckDefault"
               >
-                {taskState == 'Completed' ? <span className='text-success'><i class="bi bi-check-lg"></i> Completed</span> : <span className='text-secondary'><i class="bi bi-hourglass-split"></i> ToDo</span>}
+                {taskState == 'Completed' ? <span className='text-success'><i className="bi bi-check-lg"></i> Completed</span> : <span className='text-secondary'><i className="bi bi-hourglass-split"></i> ToDo</span>}
               </label>
             </div>
             : ""
@@ -285,6 +284,7 @@ function Form({ alert, showAlert, isRefresh, setRefresh, task, savedImgs }) {
         </div>
       </form>
     </div>
+
   )
 }
 

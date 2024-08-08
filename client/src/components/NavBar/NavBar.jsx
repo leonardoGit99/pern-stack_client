@@ -31,17 +31,17 @@ function NavBar({ setRefresh }) {
                 ?
                 <button
                   type="button"
-                  className="btn btn-primary btn-sm"
+                  className="btn btn-outline-primary btn-sm"
                   onClick={() => handleClick("goBackTasks")}
                 >
-                  <i class="bi bi-arrow-left-circle"></i> Go to Tasks
+                  <i className="bi bi-arrow-left-circle"></i> Go to Tasks
                 </button>
                 : location.pathname === `/edit-task/${idTask}` ?
                   <></>
                   :
                   <button
                     type="button"
-                    className="btn btn-primary btn-sm"
+                    className="btn btn-outline-primary btn-sm"
                     onClick={() => handleClick("newTask")}
                   >
                     <i className="bi bi-plus-circle"></i> New Task

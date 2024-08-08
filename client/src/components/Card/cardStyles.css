@@ -29,6 +29,10 @@
   border-bottom: 2px solid #f5f5f5 !important;
 }
 
+.action-btns {
+  background-color: #1F262F !important;
+}
+
 
 @media ( width <= 576px ) {
   .card-flex-container{

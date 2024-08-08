@@ -8,9 +8,9 @@ function Tasks({ alert, showAlert, isRefresh, setRefresh }) {
     if (isRefresh) {
       getAllTasks().then((data) => {
         setTasks(data);
+        setRefresh(false);
       });
     }
-    // setRefresh(false);
   }, [isRefresh]);
 
 

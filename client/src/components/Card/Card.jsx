@@ -35,7 +35,7 @@ function Card({ title, description, id, setRefresh, stateTask }) {
     <div className="card w-100 mb-3 text-light" key={id}>
       <div className="card-body row">
         <div className='card-flex-container  d-flex  justify-content-between align-items-center'>
-          <div className='col-8 col-xs-12  p-3 '>
+          <div className='col-8 col-xs-12 p-0'>
             <h5
               className={stateTask == "Completed"
                 ? "card-title fw-bold text-decoration-line-through"
@@ -56,17 +56,7 @@ function Card({ title, description, id, setRefresh, stateTask }) {
             &nbsp;
           </div>
           <div className='card__buttons col-4 col-xs-0 d-flex justify-content-center'>
-            {/* Button trigger VIEW IMG modal */}
-            <button
-              type="button"
-              className="btn btn-secondary me-3"
-              data-bs-toggle="modal"
-              data-bs-target={`#imgModal-${id}`}
-              onClick={() => handleClick("view")}
-            >
 
-              <i className="bi bi-eye-fill" />
-            </button>
 
             {/* View modal actioned by handleClick function */}
             <div className="modal fade" id={`imgModal-${id}`} tabIndex="-1" aria-labelledby="imgModal" aria-hidden="true">
@@ -114,27 +104,40 @@ function Card({ title, description, id, setRefresh, stateTask }) {
                 </div>
               </div>
             </div>
+            <div className='d-flex w-100 justify-content-center align-items-center gap-3'>
+              {/* Button trigger VIEW IMG modal */}
+              <button
+                type="button"
+                className="btn btn-dark"
+                data-bs-toggle="modal"
+                data-bs-target={`#imgModal-${id}`}
+                onClick={() => handleClick("view")}
+              >
 
-            {/* Edit button */}
-            <button
-              type="button"
-              className="btn btn-primary me-3"
-              /* data-bs-toggle="modal"
-              data-bs-target="#editModal" */
-              onClick={() => { handleClick("edit") }}
-            >
-              <i className="bi bi-pencil-square" />
-            </button>
+                <i className="bi bi-eye-fill" />
+              </button>
+              {/* Edit button */}
+              <button
+                type="button"
+                className="btn btn-dark"
+                /* data-bs-toggle="modal"
+                data-bs-target="#editModal" */
+                onClick={() => { handleClick("edit") }}
+              >
+                <i className="bi bi-pencil-square text-primary" />
+              </button>
 
-            {/* Delete button */}
-            <button
-              type="button"
-              className="btn btn-danger"
-              data-bs-toggle="modal"
-              data-bs-target={`#deleteModal-${id}`}
-            >
-              <i className="bi bi-trash" />
-            </button>
+              {/* Delete button */}
+              <button
+                type="button"
+                className="btn btn-dark"
+                data-bs-toggle="modal"
+                data-bs-target={`#deleteModal-${id}`}
+              >
+                <i className="bi bi-trash text-danger" />
+              </button>
+            </div>
+
           </div>
 
           {/* Modal */}
@@ -149,8 +152,8 @@ function Card({ title, description, id, setRefresh, stateTask }) {
                   Are you sure to delete the task "{title}"?
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-                  <button type="button" className="btn btn-danger btn-sm" data-bs-dismiss="modal" id="confirmDeleteBtn" onClick={() => { handleClick("delete") }}>Ok</button>
+                  <button type="button" className="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                  <button type="button" className="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" id="confirmDeleteBtn" onClick={() => { handleClick("delete") }}>Ok</button>
                 </div>
               </div>
             </div>
