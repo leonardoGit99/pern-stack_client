@@ -4,8 +4,9 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import './taskListStyles.css'
 
 function TaskList({ alert, showAlert, tasks, setRefresh, isRefresh }) {
-  const toDoTasks = tasks.filter(task => task.state_task === 'ToDo');
-  const taskCompleted = tasks.filter(task => task.state_task === 'Completed')
+  const toDoTasks = Array.isArray(tasks) ? tasks.filter(t => t.state_task === 'ToDo') : [];
+const taskCompleted = Array.isArray(tasks) ? tasks.filter(t => t.state_task === 'Completed') : [];
+
 
 
   // // Solucion temporal para el loader
